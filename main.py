@@ -16,9 +16,9 @@ def password_generator():
     nr_symbols = random.randint(2, 4)
     nr_numbers = random.randint(2, 4)
 
-    password_list1 = [random.choice(letters[char]) for char in range(nr_letters)]
-    password_list2 = [random.choice(symbols[char]) for char in range(nr_symbols)]
-    password_list3 = [random.choice(numbers[char]) for char in range(nr_numbers)]
+    password_list1 = [random.choice(letters) for _ in range(nr_letters)]
+    password_list2 = [random.choice(symbols) for _ in range(nr_symbols)]
+    password_list3 = [random.choice(numbers) for _ in range(nr_numbers)]
 
     password_list = password_list1 + password_list2 + password_list3
 
