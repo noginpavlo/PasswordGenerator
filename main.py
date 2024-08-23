@@ -61,12 +61,42 @@ def record_data():
             close_button.pack()
 
 
+#--------------------------------------------------------SEARCH--------------------------------------------------------#
+def search():
+    website_search = website_field.get()
+    with sqlite3.connect("database.db") as connect:
+        cursor = connect.cursor()
+        cursor.execute('''
+            SELECT * FROM password_data WHERE website = (?)
+        ''', (website_search,))
+        response = cursor.fetchone()
+    if response != None:
+        data_window = Toplevel(window, bg="white", pady=10, padx=10)
+        data_window.title("Your data")
+        data_window.minsize(400, 50)
+
+        data_label = Label(data_window, text=f"Your username: {response[2]}\nYour password: {response[3]}", bg="white")
+        data_label.pack()
+
+        close_button = Button(data_window, text="Close", command=data_window.destroy, font=("Arial", 10))
+        close_button.pack()
+    else:
+        data_window = Toplevel(window, bg="white", pady=10, padx=10)
+        data_window.title("Your data")
+        data_window.minsize(400, 50)
+
+        data_label = Label(data_window, text=f"No user data found", bg="white")
+        data_label.pack()
+
+        close_button = Button(data_window, text="Close", command=data_window.destroy, font=("Arial", 10))
+        close_button.pack()
+
 #----------------------------------------------------------UI----------------------------------------------------------#
 window = Tk()
 
 window.title("Password Generator")
-window.geometry("400x400")
-window.configure(bg="white")
+window.geometry("450x430")
+window.configure(bg="white", padx=20, pady=20)
 
 canvas = Canvas(window, width=150, height=200, bg="white", highlightthickness=0)
 logo_img = PhotoImage(file="logo.png")
@@ -82,8 +112,8 @@ email_label.grid(row=2, column=0, padx=5, pady=5, sticky="ew")
 password_label = Label(window, text="Password:", bg="white")
 password_label.grid(row=3, column=0, padx=5, pady=5, sticky="ew")
 
-website_field = Entry(window, width=45)
-website_field.grid(row=1, column=1, columnspan=2, padx=5, pady=5, sticky="w")
+website_field = Entry(window, width=20)
+website_field.grid(row=1, column=1, columnspan=1, padx=5, pady=5, sticky="ew")
 website_field.focus()
 
 username_field = Entry(window, width=45)
@@ -98,5 +128,8 @@ password_button.grid(row=3, column=2, padx=5, pady=5, sticky="w")
 
 add_button = Button(window, text="Add", command=record_data, font=("Arial", 10))
 add_button.grid(row=5, column=1, columnspan=2, padx=5, pady=5, sticky="ew")
+
+search_button = Button(window, text="Search", command=search, font=("Arial", 10))
+search_button.grid(row=1, column=2, columnspan=1, padx=5, pady=5, sticky="ew")
 
 window.mainloop()
