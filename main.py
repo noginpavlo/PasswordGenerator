@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import sqlite3
 import random
-
+import pyperclip
 
 #--------------------------------------------------GENERATE PASSWORD---------------------------------------------------#
 def password_generator():
@@ -28,7 +28,7 @@ def password_generator():
 
     password_field.delete(0, END)
     password_field.insert(0, password)
-
+    pyperclip.copy(password)
 
 #----------------------------------------------------SAVE PASSWORD-----------------------------------------------------#
 def record_data():
